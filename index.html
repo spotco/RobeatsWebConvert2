@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ASCII">
+</head>
+<body>
+<script>
+var module = {}
+module.__exports = {}
+module.export = function(name, obj) {
+	if (module.__exports[name] != null) {
+		throw "export already exists::"+name
+	}
+	module.__exports[name] = obj
+}
+module.require = function(name) {
+	if (module.__exports[name] == null) {
+		throw "require cannot find::"+name
+	}
+	return module.__exports[name]
+}
+</script>
+<script src="curves.js"></script>
+<script src="slidercalc.js"></script>
+<script src="osuparser.js"></script>
+<script src="format.js"></script>
+<script src="osu_to_lua.js"></script>
+
+<script src="jquery.js"></script>
+<script>
+$(function(){
+  $("#submit").click(function(){
+    $("#out").val("converting...")
+			var osu_file_str = $("#in").val()
+			$("#out").val(module.require("osu_to_lua")(osu_file_str))
+  })
+})
+</script>
+
+<textarea id="in" style="width:1000px;height:200px">
+  paste contents of osu file here
+</textarea>
+<br/>
+<button id="submit">CONVERT</button>
+<br/>
+<br/>
+<br/>
+<br/>
+<textarea id="out" style="width:1000px;height:200px" readonly>
+  output (paste this into the "SongMap" script in the workspace)
+</textarea>
+</body>
+</html>
