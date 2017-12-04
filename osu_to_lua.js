@@ -6,9 +6,9 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	var append_to_output = function(str) {
 		rtv_lua += (str + "\n")
 	}
-		
+
 	var beatmap = parser.parseContent(osu_file_contents)
-	
+
 	function track_time_hash(track,time) {
     return track + "_" + time
   }
@@ -26,7 +26,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
     }
     return track_number;
   }
-	
+
 	function msToTime(s) {
 	  var ms = s % 1000;
 	  s = (s - ms) / 1000;
@@ -44,7 +44,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
     4: -1
   }
   var _i_to_removes = {}
-	
+
   for (var i = 0; i < beatmap.hitObjects.length; i++) {
     var itr = beatmap.hitObjects[i];
     var type = itr.objectName;
@@ -52,14 +52,14 @@ module.export("osu_to_lua", function(osu_file_contents) {
     var start_time = itr.startTime
 
     if (_tracks_next_open[track] >= start_time) {
-			
+
 			append_to_output(format("--ERROR: Note overlapping another. At time (%s), track(%d). (Note type(%s) number(%d))",
 				msToTime(start_time),
 				track,
 				type,
 				i
 			))
-      
+
 			_i_to_removes[i] = true
       continue
     } else {
@@ -75,7 +75,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 					type,
 					i
 				))
-				
+
 				_i_to_removes[i] = true
 				continue
 			} else {
@@ -88,14 +88,14 @@ module.export("osu_to_lua", function(osu_file_contents) {
   beatmap.hitObjects = beatmap.hitObjects.filter(function(x,i){
     return !(_i_to_removes[i])
   })
-	
+
 	append_to_output("local rtv = {}");
   append_to_output(format("rtv.%s = \"%s\"","AudioAssetId","--FILL IN SOUND ASSETID HERE--"));
   append_to_output(format("rtv.%s = \"%s\"","AudioFilename",beatmap.Title));
   append_to_output(format("rtv.%s = \"%s\"","AudioDescription",""));
   append_to_output(format("rtv.%s = \"%s\"","AudioCoverImageAssetId","--FILL IN COVERART ASSETID HERE--"));
   append_to_output(format("rtv.%s = \"%s\"","AudioArtist",""));
-	
+
   append_to_output(format("rtv.%s = %d","AudioDifficulty",1));
   append_to_output(format("rtv.%s = %d","AudioTimeOffset",-75));
   append_to_output(format("rtv.%s = %d","AudioVolume",0.5));
@@ -104,8 +104,8 @@ module.export("osu_to_lua", function(osu_file_contents) {
   append_to_output(format("rtv.%s = %d","AudioHitSFXGroup",0));
 
   append_to_output("rtv.HitObjects = {}")
-	append_to_output("function note(time,track) rtv.HitObjects[#rtv.HitObjects+1]={Time=time;Type=1;Track=track;} end")
-	append_to_output("function hold(time,track,duration) rtv.HitObjects[#rtv.HitObjects+1] = {Time=time;Type=2;Track=track;Duration=duration;}  end")
+	append_to_output("local function note(time,track) rtv.HitObjects[#rtv.HitObjects+1]={Time=time;Type=1;Track=track;} end")
+	append_to_output("local function hold(time,track,duration) rtv.HitObjects[#rtv.HitObjects+1] = {Time=time;Type=2;Track=track;Duration=duration;}  end")
   append_to_output("--")
 
   for (var i = 0; i < beatmap.hitObjects.length; i++) {
@@ -129,6 +129,6 @@ module.export("osu_to_lua", function(osu_file_contents) {
   }
   append_to_output("};")
   append_to_output("return rtv")
-	
+
 	return rtv_lua
 })
