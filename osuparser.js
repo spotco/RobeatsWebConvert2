@@ -176,7 +176,7 @@ function beatmapParser() {
       hitObject.endTime    = parseInt(members[5]);
       hitObject.additions  = parseAdditions(members[6]);
 
-    } else if (objectType == 128) {
+    } else if (objectType == 128 || objectType == 132) {
       beatmap.nbSliders++;
       hitObject.objectName  = 'slider';
       hitObject.endTime  = parseInt(members[5])
