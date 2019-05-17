@@ -89,7 +89,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
     return !(_i_to_removes[i])
   })
 
-	append_to_output("local map = {}");
+  append_to_output("local map = {}");
   append_to_output(format("map.%s = \"%s\"","AssetId","--FILL IN SOUND ASSETID HERE--"));
   append_to_output(format("map.%s = \"%s\"","Song",beatmap.Title));
   append_to_output(format("map.%s = \"%s\"","Desc",""));
