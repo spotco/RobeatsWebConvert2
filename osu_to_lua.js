@@ -90,18 +90,12 @@ module.export("osu_to_lua", function(osu_file_contents) {
   })
 
 	append_to_output("local rtv = {}");
-  append_to_output(format("rtv.%s = \"%s\"","AudioAssetId","--FILL IN SOUND ASSETID HERE--"));
-  append_to_output(format("rtv.%s = \"%s\"","AudioFilename",beatmap.Title));
-  append_to_output(format("rtv.%s = \"%s\"","AudioDescription",""));
-  append_to_output(format("rtv.%s = \"%s\"","AudioCoverImageAssetId","--FILL IN COVERART ASSETID HERE--"));
-  append_to_output(format("rtv.%s = \"%s\"","AudioArtist",""));
-
-  append_to_output(format("rtv.%s = %d","AudioDifficulty",1));
-  append_to_output(format("rtv.%s = %d","AudioTimeOffset",-75));
-  append_to_output(format("rtv.%s = %d","AudioVolume",0.5));
-  append_to_output(format("rtv.%s = %d","AudioNotePrebufferTime",1500));
-  append_to_output(format("rtv.%s = %d","AudioMod",0));
-  append_to_output(format("rtv.%s = %d","AudioHitSFXGroup",0));
+  append_to_output(format("map.%s = \"%s\"","AssetId","--FILL IN SOUND ASSETID HERE--"));
+  append_to_output(format("map.%s = \"%s\"","Song",beatmap.Title));
+  append_to_output(format("map.%s = \"%s\"","Desc",""));
+  append_to_output(format("map.%s = \"%s\"","Artist",""));
+  append_to_output(format("map.%s = %d","Offset",-75));
+  append_to_output(format("map.%s = %d","PrebufferTime",1000));
 
   append_to_output("rtv.HitObjects = {}")
 	append_to_output("local function note(time,track) rtv.HitObjects[#rtv.HitObjects+1]={Time=time;Type=1;Track=track;} end")
