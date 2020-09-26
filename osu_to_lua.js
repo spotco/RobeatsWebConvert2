@@ -133,9 +133,9 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		var track = hitobj_x_to_track_number(itr.position[0]);
 
 		if (type == "slider") {
-			append_to_output(format("hold(%d,%d,%d) ", itr.startTime, track, itr.duration), false)
+			append_to_output(format("hold(%d,%d,%d) ", itr.startTime, track, itr.duration))
 		} else {
-			append_to_output(format("note(%d,%d) ",itr.startTime, track), false)
+			append_to_output(format("note(%d,%d) ",itr.startTime, track))
 		}
 	}
 	append_to_output("--")
